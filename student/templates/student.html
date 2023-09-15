@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block start %}
+
+<div class="container my-2 mt-5">
+  <form class="d-flex mt-4 my-4" role="search" method="GET" action="/search/">
+    <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Sr.no</th>
+        <th scope="col">Id</th>
+        <th scope="col">Student name</th>
+        <th scope="col">Department</th>
+        <th scope="col">Email</th>
+        <th scope="col">Age</th>
+        <th scope="col">Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in results %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>
+          <a href="{% url 'see_mark' student.studentid %}">
+            
+            {{student.studentid}} 
+          </a>
+        </td>
+        <td>{{student.student_name}} </td>
+        <td>{{student.department.department}} </td>
+        <td>{{student.student_email}} </td>
+        <td>{{student.student_age}} </td>
+        <td>{{student.student_address}} </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="pagination" style="margin: 30px;">
+    <span class="step-links">
+      {% if results.has_previous %}
+      <a href="?page=1"><button class="btn btn-success" type="submit">first</button></a>
+      <a href="?page={{ results.previous_page_number }}"><button class="btn btn-success" type="submit">Prev</button></a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ results.number }} of {{ results.paginator.num_pages }}.
+      </span>
+
+      {% if results.has_next %}
+      <a href="?page={{ results.next_page_number }}"><button class="btn btn-success" type="submit">Next</button></a>
+      <a href="?page={{ results.paginator.num_pages }}"><button class="btn btn-success" type="submit">Last</button></a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+{% endblock %}

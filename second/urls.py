@@ -17,8 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from student.views import *
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', get_students),
+    path('search/', search_view, name='search_results'),
+    path('see_mark/<studentid>', see_mark, name='see_mark'),
 
 ]
