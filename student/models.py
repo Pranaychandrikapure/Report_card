@@ -1,5 +1,10 @@
 from django.db import models
 
+#------ for preventing from permantly deleted from database---
+class StudentManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted = False)
+
 
 class Department(models.Model):
     department = models.CharField(max_length=100)
@@ -31,6 +36,10 @@ class Student(models.Model):
     student_email = models.EmailField(unique=True)
     student_age = models.IntegerField(default=18)
     student_address = models.TextField()
+    is_deleted = models.BooleanField(default=False)
+
+    objects = StudentManager()
+    admin_objects = models.Manager()
 
     def __str__(self):
         return self.student_name
@@ -49,3 +58,16 @@ class SubjectMark(models.Model):
 
     class Meta :
         unique_together = ['student','subject']
+
+
+class ReportCard(models.Model):
+        student = models.ForeignKey(Student,related_name="studentreportcard",on_delete=models.CASCADE)
+        student_rank = models.IntegerField()
+        date_of_report_card_genration = models.DateField(auto_now_add=True)
+
+
+        class Meta:
+            unique_together = ['student_rank','date_of_report_card_genration']
+
+
+

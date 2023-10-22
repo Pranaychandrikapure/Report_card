@@ -2,8 +2,10 @@
 {% block start %}
 <div class="container mt-5">
 <table class="table table-striped">
-    <h2>Rank: </h2>
-    <h2>Total:   {{total_marks.total_marks}}</h2>
+    <h2><b>Name of student :    </b>  {{queryset.first.student}} </h2>
+    <h3><b>Rank:</b>   {{queryset.first.student.studentreportcard.first.student_rank}}</h3>
+    <h3><b>Total:</b>   {{total_marks.total_marks}}</h3>
+    <h3><b>Date of Result: </b>   {{queryset.first.student.studentreportcard.first.date_of_report_card_genration}}</h3>
     <thead>
         <tr>
           <th scope="col">Sr.no</th>

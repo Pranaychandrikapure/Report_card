@@ -7,6 +7,9 @@ from django.db.models import Q,Sum
 def get_students(request):
         
     queryset = Student.objects.all()
+
+    
+
     paginator = Paginator(queryset, 10)  
     page_number = request.GET.get("page",1)
     page_obj = paginator.get_page(page_number)
@@ -27,7 +30,12 @@ def search_view(request):
     }
     return render(request,'student.html', context)
 
+
+from .seed import generate_report_card
 def see_mark (request,studentid):
+    # generate_report_card()
     queryset = SubjectMark.objects.filter(student__studentid__studentid = studentid)
     total_marks = queryset.aggregate(total_marks = Sum ('marks'))
+    
+    
     return render(request,'see_mark.html',{'queryset':queryset,'total_marks' : total_marks})
